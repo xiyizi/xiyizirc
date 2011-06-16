@@ -16,5 +16,4 @@ done
 __motd
 
 #export REPORTTIME=1
-#export TIMEFMT="
-${blue_}Total: ${blue__}%*E)          ${magenta_}User: ${magenta__}%*U)          ${yellow_}Kernel: ${yellow__}%*S)          ${green_}System: ${green__}%P)$____"
+#export TIMEFMT="${blue_}Total: ${blue__}%*E)          ${magenta_}User: ${magenta__}%*U)          ${yellow_}Kernel: ${yellow__}%*S)          ${green_}System: ${green__}%P)$____"
