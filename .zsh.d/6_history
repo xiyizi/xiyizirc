@@ -4,10 +4,11 @@
 # 6 History #
 #############
 
-export HISTORY=1000000
-export HISTSIZE=1000000
-export SAVEHIST=1000000
-export HISTFILE=$HOME/.history
+# Balls to it. 
+export HISTORY=1000000000
+export HISTSIZE=1000000000
+export SAVEHIST=1000000000
+export HISTFILE=$HOME/.zhistory
 
 setopt append_history
 setopt share_history

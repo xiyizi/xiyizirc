@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-#############
-# 5 Options #
-#############
+##############
+# 5 Options  #
+##############
 
 setopt correct            # Command correction
 setopt chase_links        # Follow symlinks

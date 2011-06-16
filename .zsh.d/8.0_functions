@@ -4,74 +4,74 @@
 # 8 functions #
 ###############
 
-cpg()
-{
-    set -A params $(echo "$@")
-	# Le dernier champs est la destination
-    params[$(( ${#params[@]} ))]=()
-	# $COLUMNS correspond à la largeur de votre terminal
-	# et est mise à jour après chaque commande si l'option
-	# checkwinsize est définie ou à la réception du signal WINCH
-    kill -s WINCH $$
-    [ $COLUMNS -lt 20 ] && (cp -a -- "$@"; return $?)
-    lim=$(( $COLUMNS - 10 ))
-	# Les "--" sont là pour signifier qu'il n'y a pas d'options
-	# sinon, il faut modifier le "du" etc...
-	# J'utilise le "-a" pour pouvoir copier par exemple des
-	# répertoires sans soucis.
-    strace -e write cp -a -- "$@" 2>&1 |
-    awk '{
-	   count += $NF	# rajoute la valeur du dernier champs
-	   # 10 représente la fréquence d affichage
-	   if (count % 10 == 0)
-	   {
-	     percent = count / total_size * 100
-	     printf "%3d%% [", percent
-	     for (i=0;i<=percent*'$lim'/100;i++)
-	       printf "="
-	     if (percent<100)
-	       printf ">"
-	     for (j=i;j< '$lim';j++)
-	       printf " "
-	     printf "]\r"
-	   }
-	 }
-	 END { printf "100\n" }' \
-      total_size=$(du -bc "${params[@]}" | awk 'END {print $1}') \
-      count=0
-}
 
-mvg()
-{
-    set -A params $(echo "$@")
-	# Le dernier champs est la destination
-    params[$(( ${#params[@]} ))]=()
-	# $COLUMNS correspond à la largeur de votre terminal
-	# et est mise à jour après chaque commande si l'option
-	# checkwinsize est définie ou à la réception du signal WINCH
-    kill -s WINCH $$
-    [ $COLUMNS -lt 20 ] && (mv -- "$@"; return $?)
-    lim=$(( $COLUMNS - 10 ))
-	# Les "--" sont là pour signifier qu'il n'y a pas d'options
-	# sinon, il faut modifier le "du" etc...
-    strace -e write mv -- "$@" 2>&1 |
-    awk '{
-	   count += $NF	# rajoute la valeur du dernier champs
-	   # 10 représente la fréquence d affichage
-	   if (count % 10 == 0)
-	   {
-	     percent = count / total_size * 100
-	     printf "%3d%% [", percent
-	     for (i=0;i<=percent*'$lim'/100;i++)
-	       printf "="
-	     if (percent<100)
-	       printf ">"
-	     for (j=i;j< '$lim';j++)
-	       printf " "
-	     printf "]\r"
-	   }
-	 }
-	 END { printf "100\n" }' \
-      total_size=$(du -bc "${params[@]}" | awk 'END {print $1}') \
-      count=0
-}
+# Flash videos from the buffer
+function flashit() 
+  { 
+    lsof | grep '/tmp/Flash[^ ]*' | awk '{ print "/proc/" $2 "/fd/" $4 }' | sed 's/[rwu]$//' | xargs mplayer -vo vdpau; 
+  }
+
+
+
+# Sansa Fuze video format is really nitpicky
+function fuzeit()
+  {
+    for MOVIE in "$@" ; do
+      # Get movie name and strip extension - allow spaces dots etc
+      VIDOUT=$(basename "$MOVIE" |sed 's/\(.*\)\..*/\1/')
+      # Get original directory name of movie
+      DIRNAME=$(dirname "$MOVIE")
+      # Set output directory & name for converted movie
+      DEST="$DIRNAME"/"$VIDOUT"_fuze.avi
+      mencoder "$MOVIE" \
+	-srate 44100 -af resample=44100:0:1,format=s16le \
+	-oac mp3lame -lameopts cbr:br=128 \
+	-ovc lavc -lavcopts vcodec=mpeg4:vqscale=3:vmax_b_frames=0:keyint=15 \
+	-ofps 20 -noskiplimit -vf pp=li,expand=:::::224/176,scale=224:176 \
+	-ffourcc DX50 \
+	-o "$MOVIE"_premux.avi \
+      && fuzemux "$MOVIE"_premux.avi "$DEST" \
+      && rm "$MOVIE"_premux.avi
+    done
+  }
+
+# WINE utilities
+alias checkwine='ps aux|grep C:|grep -v grep'
+
+function killwine()
+  {
+    for x in $(ps aux|grep C:|grep -v grep|awk '{ print $2 }'); do kill $x; done;
+   }
+
+resetwine() 
+  {
+    echo "This will reset your Wine configuration to your default set-up. All installed programmes will be lost! Are you sure?"
+    select yn in "Yes" "No"; do
+      case $yn in
+	Yes ) rm -rf ~/.wine && cp -r /media/music/WinePrefixes/default ~/.wine && export WINEPREFIX=~/.wine && break;;
+	No ) break;;
+      esac
+    done
+  }
+
+# Media utilities
+amarokmoodbars()
+  {
+    cd /media/music/Music/
+    NUMCPU="$(grep ^processor /proc/cpuinfo | wc -l)"
+    find . -type f -regextype posix-awk -iregex '.*\.(mp3|ogg|flac|wma|m4a)' | while read i ; do
+      if [ `jobs -p | wc -l` -ge $NUMCPU ] ; then wait; fi
+      TEMP="${i%.*}.mood"
+      OUTF=`echo "$TEMP" | sed 's#\(.*\)/\([^,]*\)#\1/.\2#'`
+      if [ ! -e "$OUTF" ] ; then moodbar -o "$OUTF" "$i" & ; fi
+    done;
+    cd -;
+  }
+
+# Suspend screensaver by wiggling the mouse every five minutes
+noscreen() 
+    { 
+      while true; do 
+	xte 'mousermove 1 0'; sleep 5m; xte 'mousermove -1 0'; 
+      done;  
+    }

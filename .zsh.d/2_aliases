@@ -4,48 +4,39 @@
 # 2 Aliases #
 #############
 
-alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars --human-readable'
-
-alias grep='grep --color=auto'
-alias svn='colorsvn'
-alias cp='cp --interactive'
-alias mv='mv --interactive'
-alias rm='rm --interactive'
-
-alias ll='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
-
-alias c='clear'
-alias less='less --quiet'
-alias s='cd ..'
-
-alias pk='packer --noedit'
-alias py='python2.7'
-alias pym='python2.7 -m'
-alias i='ipython'
-
-alias df='df --human-readable'
-alias du='du --human-readable'
-alias duh="du -h | sort -h"
-alias md='mkdir'
-alias rd='rmdir'
-
-alias ga='git add'
-alias gt='git status'
-alias gc='git commit'
-alias gp='git pull'
-alias gh='git push'
-alias gd='git diff'
-alias gk='git checkout'
-alias gm='git merge'
-
+# Configuration
 alias resource='source ~/.zshrc'
+alias  editzsh='kate -s zsh'
 
-alias §='sudo'
-alias §§='sudo -s'
+# File manipulation
+alias   grep='grep --color=auto'
+alias    svn='colorsvn'
+alias     cp='cp --interactive'
+alias     mv='mv --interactive'
+alias     rm='rm --interactive'
+alias     gi="grep -i --color=always"
+alias     gv="grep -v"
+alias rccopy="rsync --partial --progress --append --rsh=ssh -r -h "
+alias rcmove="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
 
+# File system display
+alias  ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars --human-readable --group-directories-first'
+alias  ll='ls -l'
+alias  la='ls --almost-all'
+alias  lla='ls -la'
+alias  lsd='ls --directory */'
+alias    c='clear'
+alias less='less --quiet'
+alias    s='cd ..'
 
+# File system sizes
+alias  df='df --human-readable'
+alias  du='du --human-readable'
+alias duh="du -h | sort -h"
+alias  md='mkdir'
+alias  rd='rmdir'
+
+# Global shortcuts
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
@@ -54,6 +45,23 @@ alias -g .......='../../../../../..'
 alias -g ........='../../../../../../..'
 alias -g .........='../../../../../../../..'
 
-alias x='emacsclient -c -n'
-alias y='emacsclient -n'
-alias xx='sudo emacs'
+# Man pages
+alias man='man -P /usr/bin/most'
+
+# Package managment
+alias   search='apt-cache search'
+alias     show='apt-cache show'
+alias   loadry='sudo apt-get install'
+alias  expload='apt-get -t experimental install'
+alias     nuke='sudo apt-get remove'
+alias  upgrade='sudo apt-get upgrade'
+alias  dist-up='sudo apt-get dist-upgrade'
+alias   update='sudo apt-get -o Acquire::http::Pipeline-Depth=0 update'
+alias    files='apt-file show'
+alias upgraydd='update && upgrade'
+alias   autorm='sudo apt-get autoremove'
+alias  implode='sudo apt-get remove --purge'
+
+# Utilities
+alias turnoff='sudo shutdown -h now'
+alias   alarm='/usr/bin/beep -f 300; /usr/bin/beep -f 400; /usr/bin/beep -f 500; /usr/bin/beep -f 600'

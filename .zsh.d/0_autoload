@@ -3,17 +3,17 @@
 autoload -U colors
 autoload -U compinit
 fpath=($ZSHRC_HOME/.zsh.d $fpath)
-autoload -U $ZSHRC_HOME/.zsh.d/X_*(:t)
+#autoload -U $ZSHRC_HOME/.zsh.d/X_*(:t)
 
 colors
 compinit
 
 # for version control status :
-typeset -ga preexec_functions
-typeset -ga precmd_functions
-typeset -ga chpwd_functions
-preexec_functions+='X_preexec_update_vc_vars'
-precmd_functions+='X_precmd_update_vc_vars'
-chpwd_functions+='X_update_current_vc_vars'
+#typeset -ga preexec_functions
+#typeset -ga precmd_functions
+#typeset -ga chpwd_functions
+##preexec_functions+='X_preexec_update_vc_vars'
+#precmd_functions+='X_precmd_update_vc_vars'
+#chpwd_functions+='X_update_current_vc_vars'
 
-X_update_current_vc_vars
+#X_update_current_vc_vars
