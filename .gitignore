@@ -1,6 +1,0 @@
-*.elc
-.emacs.d/auto-save-list/
-.emacs.d/backups/
-.emacs.d/ac-comphist.dat
-.emacs.d/autosave/
-.emacs.d/eproject.lst
