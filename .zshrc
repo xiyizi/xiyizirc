@@ -5,16 +5,16 @@
 ## Loading zsh configurations from ~/.zsh.d directory
 export ZSHRC_HOME="/home/xiyizi"
 setopt extendedglob
-for file in $ZSHRC_HOME/.zsh.d/*~$ZSHRC_HOME/.zsh.d/X_*;
+for file in $ZSHRC_HOME/.zsh.d/*;
 do
-    echo "$file ... \c"
-    local t=$(date +%s%N)
+#    echo "$file ... \c"
+#    local t=$(date +%s%N)
     source $file
-    echo "[" $(( ($(date +%s%N) - $t) / 1000000)) "ms ]"
+#    echo "[" $(( ($(date +%s%N) - $t) / 1000000)) "ms ]"
 done
 
 __motd
 
-export REPORTTIME=1
-export TIMEFMT="
+#export REPORTTIME=1
+#export TIMEFMT="
 ${blue_}Total: ${blue__}%*E)          ${magenta_}User: ${magenta__}%*U)          ${yellow_}Kernel: ${yellow__}%*S)          ${green_}System: ${green__}%P)$____"
