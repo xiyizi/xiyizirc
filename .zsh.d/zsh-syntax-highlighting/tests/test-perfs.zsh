@@ -29,35 +29,47 @@
 # -------------------------------------------------------------------------------------------------
 
 
-# A simple keyword highlighting extension for zsh-syntax-highlighting.
-
-# To use this, please do the following steps.
-# 1) Source this file after zsh-syntax-highlighting.zsh
-# % source zsh-syntax-highlighting.zsh
-# % source contrib/keyword.zsh
-# 2) Add keyword and color pairs to `ZSH_HIGHLIGHT_KEYWORD_KEYWORDS`.
-# % ZSH_HIGHLIGHT_KEYWORD_KEYWORDS+=('rm -rf *' 'fg=white,bold,bg=red')
-# 3) Please see the effect.
-# % ;# rm -rf /tmp/doesnotexist
-
-# List of keyword and color pairs.
-typeset -gA ZSH_HIGHLIGHT_KEYWORD_KEYWORDS
-
-_zsh_highlight-keyword() {
-  setopt localoptions extendedglob
-  for pattern in ${(k)ZSH_HIGHLIGHT_KEYWORD_KEYWORDS}; do
-    _zsh_highlight-keyword-loop "$BUFFER" "$pattern"
-  done
+# Check an highlighter was given as argument.
+[[ -n "$1" ]] || {
+  echo "You must provide the name of a valid highlighter as argument." >&2
+  exit 1
 }
 
-_zsh_highlight-keyword-loop() {
-  # This does *not* do its job syntactically, sorry.
-  local buf="$1" pat="$2"
-  local -a match mbegin mend
-  if [[ "$buf" == (#b)(*)(${~pat})* ]]; then
-    region_highlight+=("$((mbegin[2] - 1)) $mend[2] $ZSH_HIGHLIGHT_KEYWORD_KEYWORDS[$pat]")
-    "$0" "$match[1]" "$pat"; return $?
+# Check the highlighter is valid.
+[[ -f ${0:h:h}/highlighters/$1/$1-highlighter.zsh ]] || {
+  echo "Could not find highlighter '$1'." >&2
+  exit 1
+}
+
+# Check the highlighter has test data.
+[[ -d ${0:h:h}/highlighters/$1/test-data ]] || {
+  echo "Highlighter '$1' has no test data." >&2
+  exit 1
+}
+
+# Load the main script.
+. ${0:h:h}/zsh-syntax-highlighting.zsh
+
+# Activate the highlighter.
+ZSH_HIGHLIGHT_HIGHLIGHTERS=($1)
+
+# Process each test data file in test data directory.
+for data_file in ${0:h:h}/highlighters/$1/test-data/*; do
+
+  # Load the data and prepare checking it.
+  BUFFER=
+  echo -n "* ${data_file:t:r}: "
+  . $data_file
+
+  # Check the data declares $BUFFER.
+  if [[ ${#BUFFER} -eq 0 ]]; then
+    echo "KO\n   - 'BUFFER' is not declared or blank."
+  else
+
+    # Measure the time taken by _zsh_highlight.
+    TIMEFMT="%*Es"
+    time ( BUFFER="$BUFFER" && _zsh_highlight)
+
   fi
-}
 
-_zsh_highlight_add-highlighter _zsh_highlight-keyword _zsh_highlight_buffer-modified-p
+done
