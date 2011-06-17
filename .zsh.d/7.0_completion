@@ -3,6 +3,11 @@
 ################
 # 7 Completion #
 ################
+
+zstyle ':completion:*' verbose yes
+
+
+
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zshcache
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate

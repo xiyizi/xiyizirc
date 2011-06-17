@@ -29,8 +29,8 @@ echo -e "${cyan__} -Zo;       +\!4ZwaaaauZZXY'            ${blue_}\\ ${cyan_}Cpu
 echo -e "${cyan__}  *#[,        ~-?!!!!!!-~                ${blue_}\\ ${cyan_}Mem:${blue__}      $USEDMEM${____}      "
 echo -e "${cyan__}   XUb;.                                  ${blue_}\\ ${cyan_}Swap:${blue__}     $USEDSWAP${____}"
 echo -e "${cyan__}    )YXL,,                                 ${blue_}\\ ${cyan_}Disk:${blue__}     $FREEDISK${____}"
-echo -e "${cyan__}      +3#bc,                                ${blue_}\\=========================---${____}"
-echo -e "${cyan__}        -)SSL,,                  "
+echo -e "${cyan__}      +3#bc,                                ${blue_}\\ ${cyan_}Packages:${blue__}     $PACKAGES${____}"
+echo -e "${cyan__}        -)SSL,,                              ${blue_}\\=========================---${____}"
 echo -e "${cyan__}           ~~~~~                 "
 }
 

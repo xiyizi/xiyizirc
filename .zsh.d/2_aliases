@@ -48,6 +48,9 @@ alias -g .........='../../../../../../../..'
 # Man pages
 alias man='man -P /usr/bin/most'
 
+# Root stuff
+alias boss='sudo -s'
+
 # Package managment
 alias   search='apt-cache search'
 alias     show='apt-cache show'
@@ -61,7 +64,15 @@ alias    files='apt-file show'
 alias upgraydd='update && upgrade'
 alias   autorm='sudo apt-get autoremove'
 alias  implode='sudo apt-get remove --purge'
+alias   addppa='sudo add-apt-repoisitory'
+alias  killppa='sudo ppa-purge'
+alias  sources='sudo vim /etc/apt/sources.list'
+alias   policy='apt-cache policy'
 
 # Utilities
 alias turnoff='sudo shutdown -h now'
 alias   alarm='/usr/bin/beep -f 300; /usr/bin/beep -f 400; /usr/bin/beep -f 500; /usr/bin/beep -f 600'
+
+# Media
+alias film='mplayer -vo vdpau'
+alias open='xdg-open'

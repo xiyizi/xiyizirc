@@ -75,3 +75,12 @@ noscreen()
 	xte 'mousermove 1 0'; sleep 5m; xte 'mousermove -1 0'; 
       done;  
     }
+
+# use KDE trash for removing files
+dl()
+  {
+    for filename in $@; do
+      echo trashing $filename...
+      kioclient move $filename trash:/
+    done
+  }
