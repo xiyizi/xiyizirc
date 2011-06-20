@@ -6,7 +6,7 @@
 
 
 # Flash videos from the buffer
-function flashit() 
+flashit() 
   { 
     lsof | grep '/tmp/Flash[^ ]*' | awk '{ print "/proc/" $2 "/fd/" $4 }' | sed 's/[rwu]$//' | xargs mplayer -vo vdpau; 
   }
@@ -14,7 +14,7 @@ function flashit()
 
 
 # Sansa Fuze video format is really nitpicky
-function fuzeit()
+fuzeit()
   {
     for MOVIE in "$@" ; do
       # Get movie name and strip extension - allow spaces dots etc
@@ -37,8 +37,7 @@ function fuzeit()
 
 # WINE utilities
 alias checkwine='ps aux|grep C:|grep -v grep'
-
-function killwine()
+killwine()
   {
     for x in $(ps aux|grep C:|grep -v grep|awk '{ print $2 }'); do kill $x; done;
    }
@@ -76,7 +75,7 @@ noscreen()
       done;  
     }
 
-# use KDE trash for removing files
+# use KDE trash for removing files (really slow)
 dl()
   {
     for filename in $@; do
@@ -84,3 +83,25 @@ dl()
       kioclient move $filename trash:/
     done
   }
+
+apt-history() 
+  {
+    case "$1" in
+      install)
+	cat /var/log/dpkg.log | grep 'install '
+        ;; 
+      upgrade|remove)
+        cat /var/log/dpkg.log | grep $1
+        ;;
+      rollback)
+        cat /var/log/dpkg.log | grep upgrade | \
+          grep "$2" -A10000000 | \
+          grep "$3" -B10000000 | \
+          awk '{print $4"="$5}'
+      ;;
+      *)
+        cat /var/log/dpkg.log
+        ;;
+    esac
+  }
+
