@@ -28,12 +28,11 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
-BUFFER='ps aux | grep java'
+BUFFER='echo ({x})'
 
 expected_region_highlight=(
-  "1  2  $ZSH_HIGHLIGHT_STYLES[command]" # ps
-  "4  6  $ZSH_HIGHLIGHT_STYLES[default]" # aux
-  "8  8  $ZSH_HIGHLIGHT_STYLES[default]" # |
-  "9  12 $ZSH_HIGHLIGHT_STYLES[command]" # grep
-  "14 17 $ZSH_HIGHLIGHT_STYLES[default]" # java
+  "5  5  $ZSH_HIGHLIGHT_STYLES[bracket-level-1]" # (
+  "6  6  $ZSH_HIGHLIGHT_STYLES[bracket-level-2]" # {
+  "8  8  $ZSH_HIGHLIGHT_STYLES[bracket-level-2]" # }
+  "9  9 $ZSH_HIGHLIGHT_STYLES[bracket-level-1]" # )
 )

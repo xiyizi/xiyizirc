@@ -28,12 +28,9 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
-BUFFER='ps aux | grep java'
+BUFFER='ls highlighters/main/test-data/path.zsh'
 
 expected_region_highlight=(
-  "1  2  $ZSH_HIGHLIGHT_STYLES[command]" # ps
-  "4  6  $ZSH_HIGHLIGHT_STYLES[default]" # aux
-  "8  8  $ZSH_HIGHLIGHT_STYLES[default]" # |
-  "9  12 $ZSH_HIGHLIGHT_STYLES[command]" # grep
-  "14 17 $ZSH_HIGHLIGHT_STYLES[default]" # java
+  "1 2  $ZSH_HIGHLIGHT_STYLES[command]" # ls
+  "4 39 $ZSH_HIGHLIGHT_STYLES[path]"    # highlighters/main/test-data/path.zsh
 )
