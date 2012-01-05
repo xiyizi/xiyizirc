@@ -67,7 +67,6 @@ local prmpt="
 ${top}${time}${sep}─${user}${at}${host}${term}${colon}${dir}${__white}/
 ${bottom}${dollar}${___} "
 local prmpt2="${bottom}${__blue}%_ ${__white}>${___} "
-
 local rprmpt="${bar}<─${__white}${vcinfo}${sep}${ret}${sep}${num}${sep} ${stat}${___}"
 
 export PS1="${prmpt}"

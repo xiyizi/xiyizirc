@@ -69,11 +69,9 @@ amarokmoodbars()
 
 # Suspend screensaver by wiggling the mouse every five minutes
 noscreen() 
-    { 
-      while true; do 
-	xte 'mousermove 1 0'; sleep 5m; xte 'mousermove -1 0'; 
-      done;  
-    }
+  { 
+    xset -dpms && sleep $1m && xset +dpms;
+  }
 
 # use KDE trash for removing files (really slow)
 dl()
@@ -103,5 +101,16 @@ apt-history()
         cat /var/log/dpkg.log
         ;;
     esac
+  }
+
+# Make videos smaller
+makeitsmall() 
+  {
+    echo "Running"
+    echo -e "    ffmpeg -i $1 -pass 1 -vcodec libx264 -preset fast -b:v $2k -f mp4 -an -y /dev/null && \"
+    echo -e "    ffmpeg -i $1 -pass 2 -vcodec libx264 -preset fast -b:v $2k -acodec libfaac -b:a 96k -ac 2 $3"
+    echo ""
+    ffmpeg -i $1 -pass 1 -vcodec libx264 -preset fast -b:v $2k -f mp4 -an -y /dev/null && \
+      ffmpeg -i $1 -pass 2 -vcodec libx264 -preset fast -b:v $2k -acodec libfaac -b:a 96k -ac 2 $3;
   }
 
