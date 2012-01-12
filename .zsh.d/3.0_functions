@@ -42,7 +42,7 @@ killwine()
     for x in $(ps aux|grep C:|grep -v grep|awk '{ print $2 }'); do kill $x; done;
    }
 
-resetwine() 
+resetwine()
   {
     echo "This will reset your Wine configuration to your default set-up. All installed programmes will be lost! Are you sure?"
     select yn in "Yes" "No"; do
@@ -68,8 +68,8 @@ amarokmoodbars()
   }
 
 # Suspend screensaver by wiggling the mouse every five minutes
-noscreen() 
-  { 
+noscreen()
+  {
     xset -dpms && sleep $1m && xset +dpms;
   }
 
@@ -82,12 +82,12 @@ dl()
     done
   }
 
-apt-history() 
+apt-history()
   {
     case "$1" in
       install)
 	cat /var/log/dpkg.log | grep 'install '
-        ;; 
+        ;;
       upgrade|remove)
         cat /var/log/dpkg.log | grep $1
         ;;
@@ -104,18 +104,7 @@ apt-history()
   }
 
 # Make videos smaller
-makeitsmall() 
-  {
-#     echo "Running"
-#     echo -e "    ffmpeg -i $1 -pass 1 -vcodec libx264 -preset fast -b:v $2k -f mp4 -an -y /dev/null && \\ "
-#     echo -e "    ffmpeg -i $1 -pass 2 -vcodec libx264 -preset fast -b:v $2k -acodec libfaac -b:a 96k -ac 2 $3"
-#     echo 
-#     ffmpeg -i $1 -pass 1 -vcodec libx264 -preset fast -b:v $2k -f mp4 -an -y /dev/null && \
-#       ffmpeg -i $1 -pass 2 -vcodec libx264 -preset fast -b:v $2k -acodec libfaac -b:a 96k -ac 2 $3;
-#  audiorate=96
-# videorate=512
-# threaded=
-
+makeitsmall()   {
 while getopts "a:b:i:o:t" optname
   do
     case "$optname" in
@@ -153,9 +142,11 @@ echo "Audio bitrate set to ${audiorate}k."
 echo "Running"
 echo -e "    ffmpeg -i $input -pass 1 -vcodec libx264 -preset fast -b:v ${videorate}k -f mp4 -an -y /dev/null && \\ "
 echo -e "    ffmpeg -i $input -pass 2 -vcodec libx264 -preset fast -b:v ${videorate}k -acodec libfaac -b:a ${audiorate}k -ac 2 $threaded -y $output"
-echo 
+echo
 
 ffmpeg -i $input -pass 1 -vcodec libx264 -preset fast -b:v ${videorate}k -f mp4 -an -y /dev/null && \
 ffmpeg -i $input -pass 2 -vcodec libx264 -preset fast -b:v ${videorate}k -acodec libfaac -b:a ${audiorate}k -ac 2 $(echo $threaded) -y $output;
 }
 
+# Private functions
+. ~/Dropbox/personal.sh
