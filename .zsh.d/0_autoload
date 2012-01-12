@@ -4,6 +4,7 @@ autoload -U colors
 autoload -U compinit
 fpath=($ZSHRC_HOME/.zsh.d $fpath)
 
+
 setopt promptsubst
 autoload -U promptinit
 promptinit

@@ -4,6 +4,9 @@
 ## Thanks to all the people which made their zshrc public
 ## Loading zsh configurations from ~/.zsh.d directory
 export ZSHRC_HOME="/home/xiyizi"
+
+fpath=($ZSHRC_HOME/.zsh.d/zsh-completions $fpath)
+
 setopt extendedglob
 for file in $ZSHRC_HOME/.zsh.d/*;
 do
